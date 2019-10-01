@@ -17,6 +17,10 @@ while not os.path.exists(targetPath):
     os.mkdir(targetPath)
 
 targetFile = os.path.join(targetPath, datestring+'.csv')
+#--------------------------Create new directory for PDF------------------------------
+targetPath_PDF = os.path.join(targetPath, datestring)
+while not os.path.exists(targetPath_PDF):
+	os.mkdir(targetPath_PDF)
 
 resp1 = urllib.request.urlopen("https://www.bnpparibas-ip.co.id/en/produk-dan-layanan/produk/RDFRP/")
 soup1 = BeautifulSoup(resp1,"html.parser")
@@ -259,6 +263,7 @@ for link in soup18.find_all('a', href=True):
 #updated = file terupdate 
 #old = file sebelumnya
 
+
 f1=open("old.csv","r")
 f2=open(targetFile,"r")
 i=0
@@ -274,7 +279,8 @@ for line1 in f1:
             url=("https://www.bnpparibas-ip.co.id/files/product/"+line2.replace(" ","%20"))
             url2=url.replace("\n","")
             myfile = requests.get(url2)
-            code = open(line2.replace("\n",("")), 'wb').write(myfile.content)   
+            targetFile_PDF = os.path.join (targetPath_PDF, line2.replace("\n",("")))
+            code = open(targetFile_PDF, 'wb').write(myfile.content)   
         break
 
 f1.close()
